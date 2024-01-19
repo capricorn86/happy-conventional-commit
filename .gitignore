@@ -1,0 +1,8 @@
+node_modules
+tmp
+lib
+lerna-debug.log
+.DS_Store
+.vscode
+.idea
+.turbo
