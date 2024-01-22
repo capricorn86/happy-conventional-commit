@@ -33,7 +33,7 @@ jobs:
         run: |
           npm ci
   
-      - run: node ./bin/validate-commit-messages.js
+      - run: node ./bin/validate-commit-messages.cjs
       - run: npm run compile
       - run: npm run lint
       - run: npm run test
