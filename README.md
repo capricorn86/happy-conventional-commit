@@ -50,7 +50,7 @@ happy-release-notes > release-notes.md
 
 | Argument                                  | Description                                                                             | Default         |
 | ----------------------------------------- | --------------------------------------------------------------------------------------- | --------------- |
-| --from={version}                          | The version to generate release notes from.                                             | Latest version. |
+| --from={version}                          | The version to generate release notes from.                                             | Latest version |
 | --to={version}                            | The version to generate release notes to.                                               |                 |
 | --versionHeader                           | Set to show version header. Useful when generating release notes for multiple releases. |                 |
 | --author={githubUsername \| nameAndEmail} | Set to show author for each entry.                                                      |                 |
