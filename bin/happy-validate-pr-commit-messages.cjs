@@ -63,11 +63,11 @@ function getCommitMessages(mainBranch) {
 
 function getMainBranch() {
 	return new Promise((resolve, reject) => {
-		ChildProcess.exec(`git branch -l master main`, (error, stdout) => {
+		ChildProcess.exec(`git branch -r | grep origin/main`, (error, stdout) => {
 			if (error) {
 				reject(error);
 			} else {
-				resolve(stdout.trim());
+				resolve(stdout.trim() === 'origin/main' ? 'main' : 'master');
 			}
 		});
 	});
