@@ -12,13 +12,13 @@ npm install --save-dev happy-conventional-commit
 
 # Tools
 
-Overview
+- [Current Version](#current-version)
+- [Next Version](#next-version)
+- [Release Notes](#release-notes)
+- [Validate Commit Message](#validate-commit-message)
+- [Lint Changed Files](#lint-changed-files)
 
-- Current Version
-- Next Version
-- Release Notes
-- Validate Commit Message
-- Lint Changed Files
+# Usage
 
 ## Current Version
 
@@ -40,22 +40,22 @@ happy-release-notes
 
 ### Arguments
 
-| Argument                  | Description                                                                             | Default             |
-| ------------------------- | --------------------------------------------------------------------------------------- | ------------------- |
-| `--from={version}`        | The version to generate release notes from.                                             | Latest version.     |
-| `--to={version}`          | The version to generate release notes to.                                               |                     |
-| `--versionHeader`         | Set to show version header. Useful when generating release notes for multiple releases. |                     |
-| `--author={githubUsername | nameAndEmail}`                                                                          | Set to show author. |
+| Argument                   | Description                                                                             | Default             |
+| -------------------------- | --------------------------------------------------------------------------------------- | ------------------- |
+| `--from={version}`         | The version to generate release notes from.                                             | Latest version.     |
+| `--to={version}`           | The version to generate release notes to.                                               |                     |
+| `--versionHeader`          | Set to show version header. Useful when generating release notes for multiple releases. |                     |
+| `--author={githubUsername` | nameAndEmail}`                                                                          | Set to show author. |
 
 ## Validate Commit Message
 
-** Basic Usage **
+**Basic Usage**
 
 ```bash
 happy-validate-commit-message --commitFile={commitFile}
 ```
 
-** With Husky **
+**With Husky**
 
 1. Install [Husky](https://www.npmjs.com/package/husky)
 2. Create the file `.husky/commit-msg`
@@ -74,13 +74,13 @@ happy-validate-commit-message --commitFile={commitFile}
 
 ## Lint Changed Files
 
-** Basic Usage **
+**Basic Usage**
 
 ```bash
 happy-lint-changed-files
 ```
 
-** With Husky **
+**With Husky**
 
 1. Install [Husky](https://www.npmjs.com/package/husky)
 2. Create the file `.husky/pre-commit`
