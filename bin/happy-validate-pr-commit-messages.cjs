@@ -1,7 +1,7 @@
 #!/bin/env node
 'use strict';
 
-const GitUtility = require('../build/GitUtility');
+const ConventionalCommitValidator = require('../lib/ConventionalCommitValidator').default;
 const ChildProcess = require('child_process');
 
 const SHELL_CODES = {
@@ -24,13 +24,13 @@ async function main() {
 	let hasErrors = false;
 
 	for (const commitMessage of commitMessages) {
-		const parsed = GitUtility.parseCommitMessage(commitMessage);
+		const errorList = ConventionalCommitValidator.validate(commitMessage);
 
-		if (!parsed.errors.length) {
+		if (!errorList.length) {
 			console.log(SHELL_CODES.green, '✓ ', commitMessage, SHELL_CODES.reset);
 		} else {
 			console.error(SHELL_CODES.red, '✖ ', commitMessage, SHELL_CODES.reset);
-			for (const error of parsed.errors) {
+			for (const error of errorList) {
 				console.error(SHELL_CODES.red, '    - ', error, SHELL_CODES.reset);
 			}
 			hasErrors = true;
