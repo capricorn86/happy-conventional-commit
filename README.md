@@ -40,12 +40,12 @@ happy-release-notes
 
 ### Arguments
 
-| Argument                                  | Description                                                                             | Default             |
-| ----------------------------------------- | --------------------------------------------------------------------------------------- | ------------------- |
-| --from={version}                          | The version to generate release notes from.                                             | Latest version.     |
-| --to={version}                            | The version to generate release notes to.                                               |                     |
-| --versionHeader                           | Set to show version header. Useful when generating release notes for multiple releases. |                     |
-| --author={githubUsername \| nameAndEmail} | Set to show author for each entry.                                                      | Set to show author. |
+| Argument                                  | Description                                                                             | Default         |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- | --------------- |
+| --from={version}                          | The version to generate release notes from.                                             | Latest version. |
+| --to={version}                            | The version to generate release notes to.                                               |                 |
+| --versionHeader                           | Set to show version header. Useful when generating release notes for multiple releases. |                 |
+| --author={githubUsername \| nameAndEmail} | Set to show author for each entry.                                                      |                 |
 
 ## Validate Commit Message
 
