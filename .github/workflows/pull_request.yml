@@ -33,7 +33,7 @@ jobs:
         run: |
           npm ci
   
-      - run: node ./bin/happy-validate-pr-commit-messages.cjs
       - run: npm run compile
+      - run: node ./bin/happy-validate-pr-commit-messages.cjs
       - run: npm run lint
       - run: npm run test
