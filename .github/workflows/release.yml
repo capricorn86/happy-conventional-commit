@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   check-next-version:
     runs-on: ubuntu-latest
@@ -40,8 +40,8 @@ jobs:
 
       - id: versionCheck
         run: |
-          echo "next_version=$(node ./bin/happy-next-version.js)" >> $GITHUB_OUTPUT
-          echo "current_version=$(node ./bin/happy-current-version.js)" >> $GITHUB_OUTPUT
+          echo "next_version=$(node ./bin/happy-next-version.cjs)" >> $GITHUB_OUTPUT
+          echo "current_version=$(node ./bin/happy-current-version.cjs)" >> $GITHUB_OUTPUT
 
   publish: 
     runs-on: ubuntu-latest
@@ -126,7 +126,7 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
 
-      - run: node ./bin/happy-release-notes.js > ./RELEASE_NOTES.md
+      - run: node ./bin/happy-release-notes.cjs > ./RELEASE_NOTES.md
 
       - name: Create Release
         id: create_release

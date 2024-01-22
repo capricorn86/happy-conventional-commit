@@ -1,6 +1,7 @@
 {
 	"name": "happy-conventional-commit",
 	"description": "Tools for getting a happy conventional commit setup.",
+	"version": "0.0.0",
 	"scripts": {
 		"compile": "tsc",
 		"watch": "tsc -w --preserveWatchOutput",
