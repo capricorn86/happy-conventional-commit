@@ -40,12 +40,12 @@ happy-release-notes
 
 ### Arguments
 
-| Argument                 | Description                                                                             | Default             |
-| ------------------------ | --------------------------------------------------------------------------------------- | ------------------- |
-| --from={version}         | The version to generate release notes from.                                             | Latest version.     |
-| --to={version}           | The version to generate release notes to.                                               |                     |
-| --versionHeader          | Set to show version header. Useful when generating release notes for multiple releases. |                     |
-| --author={githubUsername | nameAndEmail}`                                                                          | Set to show author. |
+| Argument                                  | Description                                                                             | Default             |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- | ------------------- |
+| --from={version}                          | The version to generate release notes from.                                             | Latest version.     |
+| --to={version}                            | The version to generate release notes to.                                               |                     |
+| --versionHeader                           | Set to show version header. Useful when generating release notes for multiple releases. |                     |
+| --author={githubUsername \| nameAndEmail} | Set to show author for each entry.                                                      | Set to show author. |
 
 ## Validate Commit Message
 
@@ -58,8 +58,8 @@ happy-validate-commit-message --commitFile={commitFile}
 **With Husky**
 
 1. Install [Husky](https://www.npmjs.com/package/husky)
-2. Create the file `.husky/commit-msg`
-3. Add the following to the file `.husky/commit-msg`:
+2. Create the file ".husky/commit-msg"
+3. Add the following to the file ".husky/commit-msg":
    ```bash
    #!/bin/sh
    . "$(dirname "$0")/_/husky.sh"
@@ -83,8 +83,8 @@ happy-lint-changed-files
 **With Husky**
 
 1. Install [Husky](https://www.npmjs.com/package/husky)
-2. Create the file `.husky/pre-commit`
-3. Add the following to the file `.husky/pre-commit`:
+2. Create the file ".husky/pre-commit"
+3. Add the following to the file ".husky/pre-commit":
    ```bash
    #!/bin/sh
    . "$(dirname "$0")/_/husky.sh"
