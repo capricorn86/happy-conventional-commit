@@ -99,14 +99,14 @@ Configurations are defined in `package.json`.
 
 ```json
 {
-	"happyLintChanged": {
-		"rules": [
-			{
-				"command": "eslint --ignore-path .lintignore --max-warnings 0 --fix",
-				"regex": "^[a-zA-Z0-9_].*\\.(cjs|mjs|js|jsx|ts|tsx|json)$"
-			}
-		]
-	}
+  "happyLintChanged": {
+    "rules": [
+      {
+        "command": "eslint --ignore-path .lintignore --max-warnings 0 --fix",
+        "regex": "^[a-zA-Z0-9_].*\\.(cjs|mjs|js|jsx|ts|tsx|json)$"
+      }
+    ]
+  }
 }
 ```
 
