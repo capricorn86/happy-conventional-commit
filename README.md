@@ -34,8 +34,16 @@ happy-next-version
 
 ## Release Notes
 
+**Basic Usage**
+
 ```bash
 happy-release-notes
+```
+
+**Pipe to file**
+
+```bash
+happy-release-notes > release-notes.md
 ```
 
 ### Arguments
