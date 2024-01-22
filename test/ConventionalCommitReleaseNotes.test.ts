@@ -286,10 +286,21 @@ describe('ConventionalCommitReleaseNotes', () => {
 			const result = await ConventionalCommitReleaseNotes.getReleaseNotes({
 				fromVersion: 'v1.0.0',
 				toVersion: 'v1.1.0',
-				user: 'nameAndEmail'
+				author: 'nameAndEmail'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking-By**FirstnameLastname(example@example.se)**in#123###:art:Features-Addnewfeature-By**FirstnameLastname(example@example.se)**in#123-Addanotherfeature-By**FirstnameLastname(example@example.se)**in#123###:construction_worker_man:Patchfixes-Fixbug-By**FirstnameLastname(example@example.se)**in#123-Non-conventional1-By**FirstnameLastname(example@example.se)**in#123-:Non-conventional2-By**FirstnameLastname(example@example.se)**in#123-Non-conventional3-By**FirstnameLastname(example@example.se)**in#123`.replace(
+				`### :bomb: Breaking Changes
+                - Breaking - By **@Firstname Lastname (example@example.se)** in #123
+               
+               ### :art: Features
+                - Add new feature - By **@Firstname Lastname (example@example.se)** in #123
+                - Add another feature - By **@Firstname Lastname (example@example.se)** in #123
+               
+               ### :construction_worker_man: Patch fixes
+                - Fix bug - By **@Firstname Lastname (example@example.se)** in #123
+                - Non-conventional 1 - By **@Firstname Lastname (example@example.se)** in #123
+                - : Non-conventional 2 - By **@Firstname Lastname (example@example.se)** in #123
+                - Non-conventional 3 - By **@Firstname Lastname (example@example.se)** in #123`.replace(
 					/\s/g,
 					''
 				)
@@ -366,7 +377,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 			const result = await ConventionalCommitReleaseNotes.getReleaseNotes({
 				fromVersion: 'v1.0.0',
 				toVersion: 'v1.1.0',
-				user: 'githubUsername'
+				author: 'githubUsername'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
 				`###:bomb:BreakingChanges-Breaking-By**@testGithubUsername**in#123###:art:Features-Addnewfeature-By**@testGithubUsername**in#123-Addanotherfeature-By**@testGithubUsername**in#123###:construction_worker_man:Patchfixes-Fixbug-By**@testGithubUsername**in#123-Non-conventional1-By**@testGithubUsername**in#123-:Non-conventional2-By**@testGithubUsername**in#123-Non-conventional3-By**@testGithubUsername**in#123`.replace(
