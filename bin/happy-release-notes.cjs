@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-const ConventionalCommitReleaseNotes =
-	require("../lib/conventional-commit/ConventionalCommitReleaseNotes").default;
+/* eslint-disable no-console */
 
-process.on("unhandledRejection", (reason) => {
+const ConventionalCommitReleaseNotes = require('../lib/ConventionalCommitReleaseNotes').default;
+
+process.on('unhandledRejection', (reason) => {
 	console.error(reason);
 	process.exit(1);
 });
@@ -18,21 +19,21 @@ main();
  */
 function getArguments() {
 	const args = {
-		fromVersion: null,
-		toVersion: null,
+		from: null,
+		to: null,
 		versionHeader: false,
-		user: null,
+		author: null
 	};
 
 	for (const arg of process.argv) {
-		if (arg.startsWith("--fromVersion=")) {
-			args.fromVersion = arg.split("=")[1];
-		} else if (arg.startsWith("--toVersion=")) {
-			args.toVersion = arg.split("=")[1];
-		} else if (arg.startsWith("--versionHeader")) {
+		if (arg.startsWith('--from=')) {
+			args.from = arg.split('=')[1];
+		} else if (arg.startsWith('--to=')) {
+			args.to = arg.split('=')[1];
+		} else if (arg.startsWith('--author=')) {
+			args.author = arg.split('=')[1];
+		} else if (arg.startsWith('--versionHeader')) {
 			args.versionHeader = true;
-		} else if (arg.startsWith("--user")) {
-			args.user = arg.split("=")[1];
 		}
 	}
 
@@ -45,11 +46,17 @@ function getArguments() {
 async function main() {
 	const args = getArguments();
 
+	if (args.author && args.author !== 'githubUsername' && args.author !== 'nameAndEmail') {
+		throw new Error(
+			'Invalid "author" argument. Valid values are "githubUsername" or "nameAndEmail".'
+		);
+	}
+
 	const releaseNotes = await ConventionalCommitReleaseNotes.getReleaseNotes({
-		fromVersion: args.fromVersion ? args.fromVersion : null,
-		toVersion: args.toVersion ? args.toVersion : null,
+		fromVersion: args.from ? args.from : null,
+		toVersion: args.to ? args.to : null,
 		versionHeader: args.versionHeader,
-		user: args.user,
+		author: args.author
 	});
 
 	console.log(releaseNotes);

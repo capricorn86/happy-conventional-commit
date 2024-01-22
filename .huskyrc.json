@@ -1,5 +1,6 @@
 {
 	"hooks": {
-		"pre-commit": "npm run lint:changed"
+		"pre-commit": "npm run lint:changed",
+		"commit-msg": "node ./bin/happy-prepare-commit-message.js --filepath=$HUSKY_GIT_PARAMS%HUSKY_GIT_PARAMS%"
 	}
 }

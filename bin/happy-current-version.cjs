@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 'use strict';
 
-const ConventionalCommitVersion =
-	require('../lib/conventional-commit/ConventionalCommitVersion').default;
+/* eslint-disable no-console */
 
-process.on('unhandledRejection', reason => {
+const ConventionalCommitVersion = require('../lib/ConventionalCommitVersion').default;
+
+process.on('unhandledRejection', (reason) => {
 	console.error(reason);
 	process.exit(1);
 });

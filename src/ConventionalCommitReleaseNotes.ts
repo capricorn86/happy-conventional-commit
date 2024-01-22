@@ -1,6 +1,5 @@
 import ChildProcess from 'child_process';
-import StringUtility from '../utilities/StringUtility.js';
-import { GlobalWindow } from 'happy-dom';
+import HTTPS from 'https';
 
 const CHANGE_TYPE_HEADER_MARKDOWN = {
 	breaking: '### :bomb: Breaking Changes',
@@ -8,7 +7,7 @@ const CHANGE_TYPE_HEADER_MARKDOWN = {
 	fix: '### :construction_worker_man: Patch fixes'
 };
 
-type IUser = { name: string; email: string; githubUsername: string | null };
+type IAuthor = { name: string; email: string; githubUsername: string | null };
 
 type IRelease = {
 	version: string;
@@ -16,16 +15,16 @@ type IRelease = {
 		breaking: Array<{
 			taskId: string | null;
 			message: string;
-			user: IUser;
+			author: IAuthor;
 		}>;
-		feature: Array<{ taskId: string | null; message: string; user: IUser }>;
-		fix: Array<{ taskId: string | null; message: string; user: IUser }>;
+		feature: Array<{ taskId: string | null; message: string; author: IAuthor }>;
+		fix: Array<{ taskId: string | null; message: string; author: IAuthor }>;
 	};
 };
 
 type ICommit = {
 	message: string;
-	user: IUser;
+	author: IAuthor;
 };
 
 /**
@@ -38,15 +37,15 @@ export default class ConventionalCommitReleaseNotes {
 	 * @param [options] Options.
 	 * @param [options.fromVersion] From version.
 	 * @param [options.toVersion] To version.
-	 * @param [options.versionHeader] "true" to use version header.
-	 * @param [options.user] "githubUsername" or "nameAndEmail".
+	 * @param [options.versionHeader] "true" to show version header.
+	 * @param [options.author] "githubUsername" or "nameAndEmail".
 	 * @returns Release notes.
 	 */
 	public static async getReleaseNotes(options?: {
 		fromVersion?: string;
 		toVersion?: string;
 		versionHeader?: boolean;
-		user?: 'githubUsername' | 'nameAndEmail';
+		author?: 'githubUsername' | 'nameAndEmail';
 	}): Promise<string> {
 		const releases = await this.getReleases(options);
 		let output = '';
@@ -59,15 +58,26 @@ export default class ConventionalCommitReleaseNotes {
 					output += `${CHANGE_TYPE_HEADER_MARKDOWN[changeType]}\n`;
 
 					for (const change of release.changes[changeType]) {
-						const task = change.taskId ? ` (${change.taskId})` : '';
-						const user =
-							options?.user === 'githubUsername' && change.user.githubUsername
-								? ` (@${change.user.githubUsername})`
-								: options?.user === 'nameAndEmail'
-								? ` (${change.user.name} <${change.user.email}>)`
-								: '';
+						const message = change.message.endsWith('.')
+							? change.message.slice(0, -1)
+							: change.message;
+						const author =
+							options?.author === 'githubUsername' && change.author.githubUsername
+								? change.author.githubUsername
+								: options?.author === 'nameAndEmail'
+									? `${change.author.name} (${change.author.email})`
+									: null;
 
-						output += ` - ${change.message}${task}${user}\n`;
+						let userAndTask = '';
+						if (author && change.taskId) {
+							userAndTask = ` - By **@${author}** in ${change.taskId}`;
+						} else if (author) {
+							userAndTask = ` - By **@${author}**`;
+						} else if (change.taskId) {
+							userAndTask = ` - In ${change.taskId}`;
+						}
+
+						output += ` - ${message}${userAndTask}\n`;
 					}
 
 					output += '\n';
@@ -86,15 +96,13 @@ export default class ConventionalCommitReleaseNotes {
 	 * @param [options] Options.
 	 * @param [options.fromVersion] From version.
 	 * @param [options.toVersion] To version.
-	 * @param [options.versionHeader] "true" to use version header.
-	 * @param [options.user] "githubUsername" or "nameAndEmail".
+	 * @param [options.author] "githubUsername" or "nameAndEmail".
 	 * @returns Releases.
 	 */
 	private static async getReleases(options?: {
 		fromVersion?: string;
 		toVersion?: string;
-		versionHeader?: boolean;
-		user?: 'githubUsername' | 'nameAndEmail';
+		author?: 'githubUsername' | 'nameAndEmail';
 	}): Promise<IRelease[]> {
 		const commitGroups = await this.getCommitsGroupedByVersion(
 			options?.fromVersion,
@@ -122,10 +130,10 @@ export default class ConventionalCommitReleaseNotes {
 			for (const commit of commitGroup.commits) {
 				const messageMatch = commit.message.match(messageRegExp);
 
-				if (options?.user === 'githubUsername') {
+				if (options?.author === 'githubUsername') {
 					githubUsernamePromises.push(
-						this.getGithubUsername(commit.user.email).then((githubUsername): void => {
-							commit.user.githubUsername = githubUsername;
+						this.getGithubUsername(commit.author.email).then((githubUsername): void => {
+							commit.author.githubUsername = githubUsername;
 						})
 					);
 				}
@@ -144,8 +152,8 @@ export default class ConventionalCommitReleaseNotes {
 					}
 
 					if (messageMatch[3] || messageMatch[5]) {
-						change.message = StringUtility.capitalizeFirstLetter(
-							(messageMatch[3] || messageMatch[5]).trim()
+						change.message = this.removeEndPunctuation(
+							this.capitalizeFirstLetter((messageMatch[3] || messageMatch[5]).trim())
 						);
 					}
 
@@ -158,34 +166,36 @@ export default class ConventionalCommitReleaseNotes {
 									release.changes.breaking.push({
 										taskId: change.taskId,
 										message: change.message,
-										user: commit.user
+										author: commit.author
 									});
 									break;
 								case 'feat':
 									release.changes.feature.push({
 										taskId: change.taskId,
 										message: change.message,
-										user: commit.user
+										author: commit.author
 									});
 									break;
 								case 'fix':
 									release.changes.fix.push({
 										taskId: change.taskId,
 										message: change.message,
-										user: commit.user
+										author: commit.author
 									});
 									break;
 							}
 						}
 					}
 				} else if (!commit.message.startsWith('Merge ')) {
-					const taskIdRegexp = /\[{0,1}([A-Z]{2,}-[0-9]+)\]{0,1}:{0,1} */;
+					const taskIdRegexp = / *\[([^\]]+)\] *| *(#[0-9]+) */;
 					const taskIdMatch = commit.message.match(taskIdRegexp);
-					const taskId = taskIdMatch ? taskIdMatch[1] : null;
-					const message = StringUtility.capitalizeFirstLetter(
-						taskIdMatch?.[0]
-							? commit.message.replace(taskIdMatch[0], '').trim()
-							: commit.message.trim()
+					const taskId = taskIdMatch ? taskIdMatch[1] || taskIdMatch[2] : null;
+					const message = this.removeEndPunctuation(
+						this.capitalizeFirstLetter(
+							taskIdMatch?.[0]
+								? commit.message.replace(taskIdMatch[0], '').trim()
+								: commit.message.trim()
+						)
 					);
 
 					if (message && !allCommitMessages[message]) {
@@ -194,7 +204,7 @@ export default class ConventionalCommitReleaseNotes {
 						release.changes.fix.push({
 							taskId: taskId || null,
 							message: message,
-							user: commit.user
+							author: commit.author
 						});
 					}
 				}
@@ -214,11 +224,33 @@ export default class ConventionalCommitReleaseNotes {
 	 * @param email Email.
 	 * @returns Github username.
 	 */
-	private static async getGithubUsername(email: string): Promise<string | null> {
-		const window = new GlobalWindow();
-		const response = await window.fetch(`https://api.github.com/search/users?q=${email}`);
-		const json = <{ items: Array<{ login: string }> }>await response.json();
-		return json?.items?.[0]?.login || null;
+	private static getGithubUsername(email: string): Promise<string | null> {
+		return new Promise((resolve, reject) => {
+			HTTPS.get(
+				`https://api.github.com/search/users?q=${email}`,
+				{
+					headers: {
+						'User-Agent': 'nodejs'
+					}
+				},
+				(response) => {
+					let data = '';
+					response.on('data', (chunk) => {
+						data += chunk;
+					});
+					response.on('end', () => {
+						const json = <{ items: Array<{ login: string }> }>JSON.parse(data);
+						if (!json?.items?.[0]?.login) {
+							resolve(null);
+						} else {
+							resolve(json.items[0].login);
+						}
+					});
+				}
+			).on('error', (error) => {
+				reject(error);
+			});
+		});
 	}
 
 	/**
@@ -237,7 +269,9 @@ export default class ConventionalCommitReleaseNotes {
 			commits: ICommit[];
 		}>
 	> {
-		const releasedVersions = await this.getReleasedVersions(fromVersion, toVersion);
+		await this.fetchGitTags();
+
+		const releasedVersions = await this.getGitTags(fromVersion, toVersion);
 		const promises: Promise<{ version: string; commits: ICommit[] }>[] = [];
 
 		for (let i = 0; i < releasedVersions.length; i++) {
@@ -262,7 +296,7 @@ export default class ConventionalCommitReleaseNotes {
 									if (message) {
 										commits.push(<ICommit>{
 											message,
-											user: {
+											author: {
 												name: userName,
 												email: userEmail,
 												githubUsername: null
@@ -287,13 +321,13 @@ export default class ConventionalCommitReleaseNotes {
 	}
 
 	/**
-	 * Returns tag names.
+	 * Returns Git tags.
 	 *
 	 * @param [fromVersion] From version.
 	 * @param [toVersion] To version.
 	 * @returns Promise.
 	 */
-	private static getReleasedVersions(fromVersion?: string, toVersion?: string): Promise<string[]> {
+	private static getGitTags(fromVersion?: string, toVersion?: string): Promise<string[]> {
 		return new Promise((resolve, reject) => {
 			ChildProcess.exec(`git --no-pager tag -l --sort -version:refname`, (error, stdout) => {
 				if (error) {
@@ -330,5 +364,42 @@ export default class ConventionalCommitReleaseNotes {
 				}
 			});
 		});
+	}
+
+	/**
+	 * Fetches Git tags from remote source.
+	 *
+	 * @returns Promise.
+	 */
+	private static fetchGitTags(): Promise<void> {
+		return new Promise((resolve, reject) => {
+			ChildProcess.exec(`git fetch --all --tags`, (error) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve();
+				}
+			});
+		});
+	}
+
+	/**
+	 * Capitalizes first letter.
+	 *
+	 * @param text Text to use.
+	 * @returns String with first letter capitalized.
+	 */
+	private static capitalizeFirstLetter(text: string): string {
+		return text.charAt(0).toUpperCase() + text.slice(1);
+	}
+
+	/**
+	 * Removes end punctuation (.).
+	 *
+	 * @param text Text to use.
+	 * @returns String without end punctuation.
+	 */
+	private static removeEndPunctuation(text: string): string {
+		return text[text.length - 1] === '.' ? text.slice(0, -1) : text;
 	}
 }

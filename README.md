@@ -1,96 +1,111 @@
-![Happy DOM Logo](https://github.com/capricorn86/happy-dom/raw/master/docs/happy-dom-logo.jpg)
+![Happy DOM Logo](https://github.com/capricorn86/happy-conventional-commit/raw/master/docs/logo.jpg)
 
 # About
 
-[Happy DOM](https://github.com/capricorn86/happy-dom) is a JavaScript implementation of a web browser without its graphical user interface. It includes many web standards from WHATWG [DOM](https://dom.spec.whatwg.org/) and [HTML](https://html.spec.whatwg.org/multipage/).
+[Happy Conventional Commit](https://github.com/capricorn86/happy-conventional-commit) contains CLI scripts for working with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-The goal of [Happy DOM](https://github.com/capricorn86/happy-dom) is to emulate enough of a web browser to be useful for testing, scraping web sites and server-side rendering.
+# Installation
 
-[Happy DOM](https://github.com/capricorn86/happy-dom) focuses heavily on performance and can be used as an alternative to [JSDOM](https://github.com/jsdom/jsdom).
+```bash
+npm install --save-dev happy-conventional-commit
+```
 
-### DOM Features
+# Tools
 
--   Custom Elements (Web Components)
+Overview
 
--   Shadow Root (Shadow DOM)
+- Current Version
+- Next Version
+- Release Notes
+- Validate Commit Message
+- Lint Changed Files
 
--   Declarative Shadow DOM
+## Current Version
 
--   Mutation Observer
+```bash
+happy-current-version
+```
 
--   Tree Walker
+## Next Version
 
--   Fetch
+```bash
+happy-next-version
+```
 
-And much more..
+## Release Notes
 
-### Works With
+```bash
+happy-release-notes
+```
 
--   [Google LitHTML](https://lit-html.polymer-project.org)
+### Arguments
 
--   [Google LitElement](https://lit-element.polymer-project.org)
+| Argument                  | Description                                                                             | Default             |
+| ------------------------- | --------------------------------------------------------------------------------------- | ------------------- |
+| `--from={version}`        | The version to generate release notes from.                                             | Latest version.     |
+| `--to={version}`          | The version to generate release notes to.                                               |                     |
+| `--versionHeader`         | Set to show version header. Useful when generating release notes for multiple releases. |                     |
+| `--author={githubUsername | nameAndEmail}`                                                                          | Set to show author. |
 
--   [React](https://reactjs.org)
+## Validate Commit Message
 
--   [Angular](https://angular.io/)
+** Basic Usage **
 
--   [Vue](https://vuejs.org/)
+```bash
+happy-validate-commit-message --commitFile={commitFile}
+```
 
-### Module Systems
+** With Husky **
 
--   [ESM](https://nodejs.org/api/esm.html#introduction)
--   [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules)
+1. Install [Husky](https://www.npmjs.com/package/husky)
+2. Create the file `.husky/commit-msg`
+3. Add the following to the file `.husky/commit-msg`:
+   ```bash
+   #!/bin/sh
+   . "$(dirname "$0")/_/husky.sh"
+   node ./node_modules/.bin/happy-validate-commit-message --commitFile=$1
+   ```
 
-# Documentation
+### Arguments
 
-Read more about how to use Happy DOM in our [Wiki](https://github.com/capricorn86/happy-dom/wiki).
+| Argument                    | Description                             | Default |
+| --------------------------- | --------------------------------------- | ------- |
+| `--commitFile={commitFile}` | The file containing the commit message. |         |
 
-# Packages
+## Lint Changed Files
 
-This repository is a _Monorepo_. Each package lives under `packages/<package>`.
+** Basic Usage **
 
-### [![Published on npm](https://img.shields.io/npm/v/happy-dom.svg)](https://www.npmjs.com/package/happy-dom) [happy-dom](https://github.com/capricorn86/happy-dom/tree/master/packages/happy-dom)
+```bash
+happy-lint-changed-files
+```
 
-This package contains the core functionality of Happy DOM.
+** With Husky **
 
----
+1. Install [Husky](https://www.npmjs.com/package/husky)
+2. Create the file `.husky/pre-commit`
+3. Add the following to the file `.husky/pre-commit`:
+   ```bash
+   #!/bin/sh
+   . "$(dirname "$0")/_/husky.sh"
+   node ./node_modules/.bin/happy-lint-changed
+   ```
 
-### [![Published on npm](https://img.shields.io/npm/v/@happy-dom/jest-environment.svg)](https://www.npmjs.com/package/@happy-dom/jest-environment) [jest-environment](https://github.com/capricorn86/happy-dom/tree/master/packages/jest-environment)
+### Define Rules
 
-This package makes it possible to use Happy DOM with [Jest](https://jestjs.io/).
+In `package.json`:
 
----
+```json
+{
+	"happyLintChanged": {
+		"rules": [
+			{
+				"command": "eslint --ignore-path .lintignore --max-warnings 0 --fix",
+				"regex": "^[a-zA-Z0-9_].*\\.(cjs|mjs|js|jsx|ts|tsx|json)$"
+			}
+		]
+	}
+}
+```
 
-### [![Published on npm](https://img.shields.io/npm/v/@happy-dom/global-registrator.svg)](https://www.npmjs.com/package/@happy-dom/global-registrator) [global-registrator](https://github.com/capricorn86/happy-dom/tree/master/packages/global-registrator)
-
-A utility that registers Happy DOM globally, which makes it possible to use Happy DOM for testing in a Node environment.
-
----
-
-### [![Published on npm](https://img.shields.io/npm/v/@happy-dom/uncaught-exception-observer.svg)](https://www.npmjs.com/package/@happy-dom/uncaught-exception-observer) [uncaught-exception-observer](https://github.com/capricorn86/happy-dom/tree/master/packages/uncaught-exception-observer)
-
-A utility for observing uncaught exceptions thrown in Happy DOM and dispatch them as events on the Happy DOM window.
-
-# Performance
-
-| Operation                            | JSDOM   | Happy DOM |
-| ------------------------------------ | ------- | --------- |
-| Import / Require                     | 333 ms  | 45 ms     |
-| Parse HTML                           | 256 ms  | 26 ms     |
-| Serialize HTML                       | 65 ms   | 8 ms      |
-| Render custom element                | 214 ms  | 19 ms     |
-| querySelectorAll('tagname')          | 4.9 ms  | 0.7 ms    |
-| querySelectorAll('.class')           | 6.4 ms  | 3.7 ms    |
-| querySelectorAll('[attribute]')      | 4.0 ms  | 1.7 ms    |
-| querySelectorAll('[class~="name"]')  | 5.5 ms  | 2.9 ms    |
-| querySelectorAll(':nth-child(2n+1)') | 10.4 ms | 3.8 ms    |
-
-See how the test was done [here](https://github.com/capricorn86/happy-dom-performance-test)
-
-# Contributing
-
-See [Contributing Guide](https://github.com/capricorn86/happy-dom/blob/master/docs/contributing.md).
-
-# Sponsors
-
-[<img alt="RTVision" width="120px" src="https://avatars.githubusercontent.com/u/8292810?s=200&v=4" />](https://rtvision.com)
+_The rules defaults to the same as in the example above._
