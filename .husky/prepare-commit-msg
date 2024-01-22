@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-node ./bin/husky-prepare-commit-msg.cjs --commit-edit-msg-path=$1 --commit-type=$2
+node ./bin/happy-prepare-commit-message.cjs --commitFile=$1 --commitType=$2

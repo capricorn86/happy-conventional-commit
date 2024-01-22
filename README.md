@@ -1,4 +1,4 @@
-![Happy DOM Logo](https://github.com/capricorn86/happy-conventional-commit/raw/master/docs/logo.jpg)
+![Happy Conventional Commit Logo](https://raw.githubusercontent.com/capricorn86/happy-conventional-commit/main/docs/logo.jpg)
 
 # About
 

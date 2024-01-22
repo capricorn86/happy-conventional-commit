@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-node ./bin/husky-commit-msg.cjs --commit=$1
+node ./bin/happy-validate-commit-message.cjs --commitFile=$1
