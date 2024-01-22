@@ -50,10 +50,10 @@ happy-release-notes > release-notes.md
 
 | Argument                                  | Description                                                                             | Default         |
 | ----------------------------------------- | --------------------------------------------------------------------------------------- | --------------- |
-| --from={version}                          | The version to generate release notes from.                                             | Latest version. |
-| --to={version}                            | The version to generate release notes to.                                               |                 |
-| --versionHeader                           | Set to show version header. Useful when generating release notes for multiple releases. |                 |
-| --author={githubUsername \| nameAndEmail} | Set to show author for each entry.                                                      |                 |
+| --from={version}                          | The version to generate release notes from                                             | Latest version. |
+| --to={version}                            | The version to generate release notes to                                               |                 |
+| --versionHeader                           | Set to show version header. Useful when generating release notes for multiple releases |                 |
+| --author={githubUsername \| nameAndEmail} | Set to show author for each entry                                                      |                 |
 
 ## Validate Commit Message
 
@@ -78,7 +78,7 @@ happy-validate-commit-message --commitFile={commitFile}
 
 | Argument                  | Description                             | Default |
 | ------------------------- | --------------------------------------- | ------- |
-| --commitFile={commitFile} | The file containing the commit message. |         |
+| --commitFile={commitFile} | The file containing the commit message |         |
 
 ## Lint Changed Files
 
