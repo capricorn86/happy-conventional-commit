@@ -20,20 +20,23 @@ process.on('unhandledRejection', (error) => {
 });
 
 async function main() {
-	const commitMessages = await getCommitMessages();
+	const mainBranch = await getMainBranch();
+	const commitMessages = await getCommitMessages(mainBranch);
 	let hasErrors = false;
 
 	for (const commitMessage of commitMessages) {
-		const errorList = ConventionalCommitValidator.validate(commitMessage);
+		if (commitMessage) {
+			const errorList = ConventionalCommitValidator.validate(commitMessage);
 
-		if (!errorList.length) {
-			console.log(SHELL_CODES.green, '✓ ', commitMessage, SHELL_CODES.reset);
-		} else {
-			console.error(SHELL_CODES.red, '✖ ', commitMessage, SHELL_CODES.reset);
-			for (const error of errorList) {
-				console.error(SHELL_CODES.red, '    - ', error, SHELL_CODES.reset);
+			if (!errorList.length) {
+				console.log(SHELL_CODES.green, '✓ ', commitMessage, SHELL_CODES.reset);
+			} else {
+				console.error(SHELL_CODES.red, '✖ ', commitMessage, SHELL_CODES.reset);
+				for (const error of errorList) {
+					console.error(SHELL_CODES.red, '    - ', error, SHELL_CODES.reset);
+				}
+				hasErrors = true;
 			}
-			hasErrors = true;
 		}
 	}
 
@@ -43,10 +46,10 @@ async function main() {
 	}
 }
 
-function getCommitMessages() {
+function getCommitMessages(mainBranch) {
 	return new Promise((resolve, reject) => {
 		ChildProcess.exec(
-			`git --no-pager log HEAD..origin/master --pretty=format:"%s"`,
+			`git --no-pager log HEAD..origin/${mainBranch} --pretty=format:"%s"`,
 			(error, stdout) => {
 				if (error) {
 					reject(error);
@@ -55,6 +58,18 @@ function getCommitMessages() {
 				}
 			}
 		);
+	});
+}
+
+function getMainBranch() {
+	return new Promise((resolve, reject) => {
+		ChildProcess.exec(`git branch -l master main`, (error, stdout) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(stdout.trim());
+			}
+		});
 	});
 }
 
