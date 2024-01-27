@@ -16,6 +16,7 @@ npm install --save-dev happy-conventional-commit
 - [Next Version](https://github.com/capricorn86/happy-conventional-commit/wiki/Next-Version)
 - [Release Notes](https://github.com/capricorn86/happy-conventional-commit/wiki/Release-Notes)
 - [Validate Commit Message](https://github.com/capricorn86/happy-conventional-commit/wiki/Validate-Commit-Message)
+- [Prepare Commit Message](https://github.com/capricorn86/happy-conventional-commit/wiki/Prepare-Commit-Message)
 - [Validate Pull Request Commit Messages](https://github.com/capricorn86/happy-conventional-commit/wiki/Validate-Pull-Request-Commit-Messages)
 - [Lint Changed Files](https://github.com/capricorn86/happy-conventional-commit/wiki/Lint-Changed-Files)
 
