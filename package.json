@@ -2,6 +2,15 @@
 	"name": "happy-conventional-commit",
 	"description": "Tools for getting a happy conventional commit setup.",
 	"version": "0.0.0",
+	"keywords": [
+		"conventional",
+		"commit",
+		"next",
+		"version",
+		"release",
+		"notes",
+		"changelog"
+	],
 	"scripts": {
 		"compile": "tsc",
 		"watch": "tsc -w --preserveWatchOutput",
@@ -16,8 +25,12 @@
 	},
 	"bin": {
 		"happy-current-version": "./bin/happy-current-version.cjs",
+		"happy-lint-changed": "./bin/happy-lint-changed.cjs",
 		"happy-next-version": "./bin/happy-next-version.cjs",
-		"happy-release-notes": "./bin/happy-release-notes.cjs"
+		"happy-prepare-commit-message": "./bin/happy-prepare-commit-message.cjs",
+		"happy-release-notes": "./bin/happy-release-notes.cjs",
+		"happy-validate-commit-message": "./bin/happy-validate-commit-message.cjs",
+		"happy-validate-pr-commit-messages": "./bin/happy-validate-commit-message.cjs"
 	},
 	"devDependencies": {
 		"@types/node": "^18.0.0",
