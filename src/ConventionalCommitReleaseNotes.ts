@@ -70,11 +70,11 @@ export default class ConventionalCommitReleaseNotes {
 
 						let userAndTask = '';
 						if (author && change.taskId) {
-							userAndTask = ` - By **@${author}** in ${change.taskId}`;
+							userAndTask = ` - By **@${author}** in task ${change.taskId}`;
 						} else if (author) {
 							userAndTask = ` - By **@${author}**`;
 						} else if (change.taskId) {
-							userAndTask = ` - In ${change.taskId}`;
+							userAndTask = ` - In task ${change.taskId}`;
 						}
 
 						output += ` - ${message}${userAndTask}\n`;

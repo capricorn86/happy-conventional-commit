@@ -48,7 +48,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 				versionHeader: true
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`#v2.1.0-rc###:bomb:BreakingChanges-Breaking - In TASK-123###:art:Features-Addnewfeature - In TASK-123-Addanotherfeature - In TASK-123###:construction_worker_man:Patchfixes-Fixbug - In TASK-123 `.replace(
+				`#v2.1.0-rc###:bomb:BreakingChanges-Breaking - In task TASK-123###:art:Features-Addnewfeature - In task TASK-123-Addanotherfeature - In task TASK-123###:construction_worker_man:Patchfixes-Fixbug - In task TASK-123 `.replace(
 					/\s/g,
 					''
 				)
@@ -93,7 +93,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 				versionHeader: true
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`# v2.1.0-rc\n\n### :bomb: Breaking Changes\n - Breaking - In TASK-123\n\n### :art: Features\n - Add new feature - In TASK-123\n - Add another feature - In TASK-123\n\n### :construction_worker_man: Patch fixes\n - Fix bug - In TASK-123`.replace(
+				`# v2.1.0-rc\n\n### :bomb: Breaking Changes\n - Breaking - In task TASK-123\n\n### :art: Features\n - Add new feature - In task TASK-123\n - Add another feature - In task TASK-123\n\n### :construction_worker_man: Patch fixes\n - Fix bug - In task TASK-123`.replace(
 					/\s/g,
 					''
 				)
@@ -144,7 +144,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 				fromVersion: 'v1.0.0'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`#v2.1.0-rc###:bomb:BreakingChanges-Breaking - In TASK-123###:construction_worker_man:Patchfixes-Fixbug - In TASK-123#v2.0.0###:art:Features-Addanotherfeature - In TASK-123#v1.1.0###:art:Features-Addnewfeature - In TASK-123`.replace(
+				`#v2.1.0-rc###:bomb:BreakingChanges-Breaking - In task TASK-123###:construction_worker_man:Patchfixes-Fixbug - In task TASK-123#v2.0.0###:art:Features-Addanotherfeature - In task TASK-123#v1.1.0###:art:Features-Addnewfeature - In task TASK-123`.replace(
 					/\s/g,
 					''
 				)
@@ -190,7 +190,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 				toVersion: 'v1.1.0'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking - In TASK-123###:art:Features-Addnewfeature - In TASK-123-Addanotherfeature - In TASK-123###:construction_worker_man:Patchfixes-Fixbug - In TASK-123 `.replace(
+				`###:bomb:BreakingChanges-Breaking - In task TASK-123###:art:Features-Addnewfeature - In task TASK-123-Addanotherfeature - In task TASK-123###:construction_worker_man:Patchfixes-Fixbug - In task TASK-123 `.replace(
 					/\s/g,
 					''
 				)
@@ -239,7 +239,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 				toVersion: 'v1.1.0'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking-InTASK-123###:art:Features-Addnewfeature-InTASK-123-Addanotherfeature-InTASK-123###:construction_worker_man:Patchfixes-Fixbug-InTASK-123-TASK-123Non-conventional1-TASK-123:Non-conventional2-Non-conventional3-InTASK-123`.replace(
+				`###:bomb:BreakingChanges-Breaking-IntaskTASK-123###:art:Features-Addnewfeature-IntaskTASK-123-Addanotherfeature-IntaskTASK-123###:construction_worker_man:Patchfixes-Fixbug-IntaskTASK-123-TASK-123Non-conventional1-TASK-123:Non-conventional2-Non-conventional3-IntaskTASK-123`.replace(
 					/\s/g,
 					''
 				)
@@ -290,17 +290,17 @@ describe('ConventionalCommitReleaseNotes', () => {
 			});
 			expect(result.replace(/\s/g, '')).toBe(
 				`### :bomb: Breaking Changes
-                - Breaking - By **@Firstname Lastname (example@example.se)** in #123
+                - Breaking - By **@Firstname Lastname (example@example.se)** in task #123
                
                ### :art: Features
-                - Add new feature - By **@Firstname Lastname (example@example.se)** in #123
-                - Add another feature - By **@Firstname Lastname (example@example.se)** in #123
+                - Add new feature - By **@Firstname Lastname (example@example.se)** in task #123
+                - Add another feature - By **@Firstname Lastname (example@example.se)** in task #123
                
                ### :construction_worker_man: Patch fixes
-                - Fix bug - By **@Firstname Lastname (example@example.se)** in #123
-                - Non-conventional 1 - By **@Firstname Lastname (example@example.se)** in #123
-                - : Non-conventional 2 - By **@Firstname Lastname (example@example.se)** in #123
-                - Non-conventional 3 - By **@Firstname Lastname (example@example.se)** in #123`.replace(
+                - Fix bug - By **@Firstname Lastname (example@example.se)** in task #123
+                - Non-conventional 1 - By **@Firstname Lastname (example@example.se)** in task #123
+                - : Non-conventional 2 - By **@Firstname Lastname (example@example.se)** in task #123
+                - Non-conventional 3 - By **@Firstname Lastname (example@example.se)** in task #123`.replace(
 					/\s/g,
 					''
 				)
@@ -380,7 +380,7 @@ describe('ConventionalCommitReleaseNotes', () => {
 				author: 'githubUsername'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking-By**@testGithubUsername**in#123###:art:Features-Addnewfeature-By**@testGithubUsername**in#123-Addanotherfeature-By**@testGithubUsername**in#123###:construction_worker_man:Patchfixes-Fixbug-By**@testGithubUsername**in#123-Non-conventional1-By**@testGithubUsername**in#123-:Non-conventional2-By**@testGithubUsername**in#123-Non-conventional3-By**@testGithubUsername**in#123`.replace(
+				`###:bomb:BreakingChanges-Breaking-By**@testGithubUsername**intask#123###:art:Features-Addnewfeature-By**@testGithubUsername**intask#123-Addanotherfeature-By**@testGithubUsername**intask#123###:construction_worker_man:Patchfixes-Fixbug-By**@testGithubUsername**intask#123-Non-conventional1-By**@testGithubUsername**intask#123-:Non-conventional2-By**@testGithubUsername**intask#123-Non-conventional3-By**@testGithubUsername**intask#123`.replace(
 					/\s/g,
 					''
 				)
