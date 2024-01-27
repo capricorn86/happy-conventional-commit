@@ -136,7 +136,7 @@ jobs:
         run: npm run compile
 
       - name: Generate release notes
-        run: node ./bin/happy-release-notes.cjs > ./RELEASE_NOTES.md
+        run: node ./bin/happy-release-notes.cjs --author=githubUsername > ./RELEASE_NOTES.md
 
       - name: Create release
         id: create_release
