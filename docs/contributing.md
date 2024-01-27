@@ -58,9 +58,9 @@ Branch names should have the pattern "{issueID}-name-of-branch".
 
 ## Commit Convention
 
-We use [Conventional Commits](https://www.conventionalcommits.org/en/) standard for our commit messages. The description should start with an uppercase letter.
+We use the [Conventional Commits](https://www.conventionalcommits.org/en/) standard for our commit messages. The description should start with an uppercase character.
 
-**Example:**
+**Example**
 
 ```
 fix: [#123] This is my commit message
