@@ -28,11 +28,10 @@ main();
  */
 async function main() {
 	const packageJson = require(Path.resolve('package.json'));
-	const lintIgnoreStat = await FS.promises.stat(Path.resolve('.lintignore'));
 	const rules = packageJson['happyLintChanged']?.rules || [
 		{
 			regexp: '^[a-zA-Z0-9_].*\\.(cjs|mjs|js|jsx|ts|tsx|json)$',
-			command: `eslint --ignore-path ${lintIgnoreStat.isFile() ? '.lintignore' : '.gitignore'} --max-warnings 0 --fix`
+			command: `eslint --max-warnings 0 --fix`
 		}
 	];
 	let failed = false;
