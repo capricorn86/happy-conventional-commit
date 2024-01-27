@@ -24,6 +24,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -34,9 +35,12 @@ jobs:
           path: ./node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('./package-lock.json') }}
       
-      - name: Install Dependencies
+      - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
+
+      - name: Compile package
+        run: npm run compile
 
       - id: versionCheck
         run: |
@@ -61,6 +65,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -71,14 +76,14 @@ jobs:
           path: ./node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('./package-lock.json') }}
       
-      - name: Install Dependencies
+      - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
 
       - name: Set version
         run: npm version ${{ needs.check-next-version.outputs.next_version }} --no-git-tag-version
 
-      - name: Compile packages
+      - name: Compile package
         run: npm run compile
 
       - name: Run tests
@@ -112,6 +117,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -122,13 +128,17 @@ jobs:
           path: ./node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}-build-${{ env.cache-name }}-${{ hashFiles('./package-lock.json') }}
       
-      - name: Install Dependencies
+      - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
 
-      - run: node ./bin/happy-release-notes.cjs > ./RELEASE_NOTES.md
+      - name: Compile package
+        run: npm run compile
 
-      - name: Create Release
+      - name: Generate release notes
+        run: node ./bin/happy-release-notes.cjs > ./RELEASE_NOTES.md
+
+      - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
