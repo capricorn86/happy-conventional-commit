@@ -5,7 +5,6 @@
 
 const ChildProcess = require('child_process');
 const Path = require('path');
-const FS = require('fs');
 const SHELL_CODES = {
 	reset: '\x1b[0m',
 	bold: '\x1b[1m',
