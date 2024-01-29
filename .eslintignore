@@ -1,6 +1,7 @@
 **/node_modules
 **/tmp
 **/lib
+.turbo
 .eslintrc.cjs
 .prettierrc.cjs
 vitest.config.ts

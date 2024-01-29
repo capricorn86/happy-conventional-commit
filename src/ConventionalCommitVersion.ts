@@ -37,12 +37,12 @@ export default class ConventionalCommitVersion {
 
 		for (const commit of commits.split(/[\n\r]/gm)) {
 			const parts = commit.trim().split(':');
-			if (parts.length === 1 && !commit.startsWith('Merge ')) {
-				if (parts[0]) {
+			if (parts.length === 1) {
+				if (parts[0] && !commit.startsWith('Merge ')) {
 					change.patch = true;
 				}
 			} else {
-				const type = parts[0];
+				const type = parts[0].split('[')[0];
 				switch (type) {
 					case 'BREAKING CHANGE':
 						change.major = true;
@@ -51,6 +51,11 @@ export default class ConventionalCommitVersion {
 						change.minor = true;
 						break;
 					case 'fix':
+						change.patch = true;
+						break;
+					case 'chore':
+						break;
+					default:
 						change.patch = true;
 						break;
 				}
