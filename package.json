@@ -5,11 +5,25 @@
 	"keywords": [
 		"conventional",
 		"commit",
+		"commits",
 		"next",
+		"current",
 		"version",
 		"release",
 		"notes",
-		"changelog"
+		"changelog",
+		"lint",
+		"changed",
+		"staged",
+		"workspace",
+		"version",
+		"validate",
+		"message",
+		"prepare",
+		"pull",
+		"request",
+		"git",
+		"github"
 	],
 	"scripts": {
 		"compile": "tsc",
