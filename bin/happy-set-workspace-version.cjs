@@ -112,13 +112,11 @@ async function main() {
 
 		workspacePackage.packageJson.version = version;
 
-		for (const dependencyType of ['dependencies', 'devDependencies', 'peerDependencies']) {
-			const dependencies = workspacePackage.packageJson[dependencyType];
-			if (dependencies) {
-				for (const dependency of Object.keys(dependencies)) {
-					if (workspacePackages[dependency]) {
-						dependencies[dependency] = dependencies[dependency].replace(VERSION_REGEXP, version);
-					}
+		const dependencies = workspacePackage.packageJson.dependencies;
+		if (dependencies) {
+			for (const dependency of Object.keys(dependencies)) {
+				if (workspacePackages[dependency]) {
+					dependencies[dependency] = dependencies[dependency].replace(VERSION_REGEXP, version);
 				}
 			}
 		}
