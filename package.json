@@ -29,7 +29,11 @@
 		"happy-prepare-commit-message": "./bin/happy-prepare-commit-message.cjs",
 		"happy-release-notes": "./bin/happy-release-notes.cjs",
 		"happy-validate-commit-message": "./bin/happy-validate-commit-message.cjs",
-		"happy-validate-pr-commit-messages": "./bin/happy-validate-pr-commit-messages.cjs"
+		"happy-validate-pr-commit-messages": "./bin/happy-validate-pr-commit-messages.cjs",
+		"happy-set-workspace-version": "./bin/happy-set-workspace-version.cjs"
+	},
+	"dependencies": {
+		"glob": "^10.3.10"
 	},
 	"devDependencies": {
 		"@types/node": "^18.0.0",

@@ -19,6 +19,7 @@ npm install --save-dev happy-conventional-commit
 - [Prepare Commit Message](https://github.com/capricorn86/happy-conventional-commit/wiki/Prepare-Commit-Message)
 - [Validate Pull Request Commit Messages](https://github.com/capricorn86/happy-conventional-commit/wiki/Validate-Pull-Request-Commit-Messages)
 - [Lint Changed Files](https://github.com/capricorn86/happy-conventional-commit/wiki/Lint-Changed-Files)
+- [Set Workspace Version](https://github.com/capricorn86/happy-conventional-commit/wiki/Set-Workspace-Version)
 
 # Contributing
 
