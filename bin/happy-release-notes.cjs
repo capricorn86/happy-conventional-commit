@@ -22,7 +22,7 @@ function getArguments() {
 		from: null,
 		to: null,
 		versionHeader: false,
-		author: null
+		authorUsername: null
 	};
 
 	for (const arg of process.argv) {
@@ -32,6 +32,8 @@ function getArguments() {
 			args.to = arg.split('=')[1];
 		} else if (arg.startsWith('--author=')) {
 			args.author = arg.split('=')[1];
+		} else if (arg.startsWith('--authorUsername=')) {
+			args.authorUsername = arg.split('=')[1];
 		} else if (arg.startsWith('--versionHeader')) {
 			args.versionHeader = true;
 		}
@@ -56,7 +58,8 @@ async function main() {
 		fromVersion: args.from ? args.from : null,
 		toVersion: args.to ? args.to : null,
 		versionHeader: args.versionHeader,
-		author: args.author
+		author: args.author,
+		authorUsername: args.authorUsername
 	});
 
 	console.log(releaseNotes);
