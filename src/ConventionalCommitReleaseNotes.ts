@@ -39,6 +39,7 @@ export default class ConventionalCommitReleaseNotes {
 	 * @param [options.toVersion] To version.
 	 * @param [options.versionHeader] "true" to show version header.
 	 * @param [options.author] "githubUsername" or "nameAndEmail".
+	 * @param [options.authorUsername] Use this username for author when "author" is not specified or if it was not possible to retrieve the Github username based on email.
 	 * @returns Release notes.
 	 */
 	public static async getReleaseNotes(options?: {
@@ -46,6 +47,7 @@ export default class ConventionalCommitReleaseNotes {
 		toVersion?: string;
 		versionHeader?: boolean;
 		author?: 'githubUsername' | 'nameAndEmail';
+		authorUsername?: string;
 	}): Promise<string> {
 		const releases = await this.getReleases(options);
 		let output = '';
@@ -61,18 +63,28 @@ export default class ConventionalCommitReleaseNotes {
 						const message = change.message.endsWith('.')
 							? change.message.slice(0, -1)
 							: change.message;
-						const author =
-							options?.author === 'githubUsername' && change.author.githubUsername
-								? change.author.githubUsername
-								: options?.author === 'nameAndEmail'
-									? `${change.author.name} (${change.author.email})`
-									: null;
+						let author = '';
+
+						switch (options?.author) {
+							case 'githubUsername':
+								author =
+									change.author.githubUsername || options?.authorUsername
+										? `@${change.author.githubUsername || options?.authorUsername}`
+										: null;
+								break;
+							case 'nameAndEmail':
+								author = `${change.author.name} (${change.author.email})`;
+								break;
+							default:
+								author = options?.authorUsername ? `@${options?.authorUsername}` : null;
+								break;
+						}
 
 						let userAndTask = '';
 						if (author && change.taskId) {
-							userAndTask = ` - By **@${author}** in task ${change.taskId}`;
+							userAndTask = ` - By **${author}** in task ${change.taskId}`;
 						} else if (author) {
-							userAndTask = ` - By **@${author}**`;
+							userAndTask = ` - By **${author}**`;
 						} else if (change.taskId) {
 							userAndTask = ` - In task ${change.taskId}`;
 						}
@@ -295,7 +307,8 @@ export default class ConventionalCommitReleaseNotes {
 									const [message, userName, userEmail] = row.trim().split('|');
 									if (message) {
 										commits.push(<ICommit>{
-											message,
+											// Remove @ from message to avoid Github to link to a user.
+											message: message.replace('@', ''),
 											author: {
 												name: userName,
 												email: userEmail,

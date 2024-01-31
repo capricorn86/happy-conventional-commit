@@ -48,10 +48,17 @@ describe('ConventionalCommitReleaseNotes', () => {
 				versionHeader: true
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`#v2.1.0-rc###:bomb:BreakingChanges-Breaking - In task TASK-123###:art:Features-Addnewfeature - In task TASK-123-Addanotherfeature - In task TASK-123###:construction_worker_man:Patchfixes-Fixbug - In task TASK-123 `.replace(
-					/\s/g,
-					''
-				)
+				`#v2.1.0-rc
+
+                ### :bomb: Breaking Changes
+                 - Breaking - In task TASK-123
+                
+                ### :art: Features
+                 - Add new feature - In task TASK-123
+                 - Add another feature - In task TASK-123
+                
+                ### :construction_worker_man: Patch fixes
+                 - Fix bug - In task TASK-123`.replace(/\s/g, '')
 			);
 		});
 
@@ -93,10 +100,17 @@ describe('ConventionalCommitReleaseNotes', () => {
 				versionHeader: true
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`# v2.1.0-rc\n\n### :bomb: Breaking Changes\n - Breaking - In task TASK-123\n\n### :art: Features\n - Add new feature - In task TASK-123\n - Add another feature - In task TASK-123\n\n### :construction_worker_man: Patch fixes\n - Fix bug - In task TASK-123`.replace(
-					/\s/g,
-					''
-				)
+				`#v2.1.0-rc
+
+                ### :bomb: Breaking Changes
+                 - Breaking - In task TASK-123
+                
+                ### :art: Features
+                 - Add new feature - In task TASK-123
+                 - Add another feature - In task TASK-123
+                
+                ### :construction_worker_man: Patch fixes
+                 - Fix bug - In task TASK-123`.replace(/\s/g, '')
 			);
 		});
 
@@ -144,10 +158,25 @@ describe('ConventionalCommitReleaseNotes', () => {
 				fromVersion: 'v1.0.0'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`#v2.1.0-rc###:bomb:BreakingChanges-Breaking - In task TASK-123###:construction_worker_man:Patchfixes-Fixbug - In task TASK-123#v2.0.0###:art:Features-Addanotherfeature - In task TASK-123#v1.1.0###:art:Features-Addnewfeature - In task TASK-123`.replace(
-					/\s/g,
-					''
-				)
+				`#v2.1.0-rc
+
+                ### :bomb: Breaking Changes
+                 - Breaking - In task TASK-123
+                
+                ### :construction_worker_man: Patch fixes
+                 - Fix bug - In task TASK-123
+                
+                
+                #v2.0.0
+                
+                ### :art: Features
+                 - Add another feature - In task TASK-123
+                
+                
+                #v1.1.0
+                
+                ### :art: Features
+                 - Add new feature - In task TASK-123`.replace(/\s/g, '')
 			);
 		});
 
@@ -190,10 +219,15 @@ describe('ConventionalCommitReleaseNotes', () => {
 				toVersion: 'v1.1.0'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking - In task TASK-123###:art:Features-Addnewfeature - In task TASK-123-Addanotherfeature - In task TASK-123###:construction_worker_man:Patchfixes-Fixbug - In task TASK-123 `.replace(
-					/\s/g,
-					''
-				)
+				`### :bomb: Breaking Changes
+                - Breaking - In task TASK-123
+               
+               ### :art: Features
+                - Add new feature - In task TASK-123
+                - Add another feature - In task TASK-123
+               
+               ### :construction_worker_man: Patch fixes
+                - Fix bug - In task TASK-123`.replace(/\s/g, '')
 			);
 		});
 
@@ -239,10 +273,18 @@ describe('ConventionalCommitReleaseNotes', () => {
 				toVersion: 'v1.1.0'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking-IntaskTASK-123###:art:Features-Addnewfeature-IntaskTASK-123-Addanotherfeature-IntaskTASK-123###:construction_worker_man:Patchfixes-Fixbug-IntaskTASK-123-TASK-123Non-conventional1-TASK-123:Non-conventional2-Non-conventional3-IntaskTASK-123`.replace(
-					/\s/g,
-					''
-				)
+				`### :bomb: Breaking Changes
+                - Breaking - In task TASK-123
+               
+               ### :art: Features
+                - Add new feature - In task TASK-123
+                - Add another feature - In task TASK-123
+               
+               ### :construction_worker_man: Patch fixes
+                - Fix bug - In task TASK-123
+                - TASK-123 Non-conventional 1
+                - TASK-123: Non-conventional 2
+                - Non-conventional 3 - In task TASK-123`.replace(/\s/g, '')
 			);
 		});
 
@@ -290,17 +332,17 @@ describe('ConventionalCommitReleaseNotes', () => {
 			});
 			expect(result.replace(/\s/g, '')).toBe(
 				`### :bomb: Breaking Changes
-                - Breaking - By **@Firstname Lastname (example@example.se)** in task #123
+                - Breaking - By **Firstname Lastname (example@example.se)** in task #123
                
                ### :art: Features
-                - Add new feature - By **@Firstname Lastname (example@example.se)** in task #123
-                - Add another feature - By **@Firstname Lastname (example@example.se)** in task #123
+                - Add new feature - By **Firstname Lastname (example@example.se)** in task #123
+                - Add another feature - By **Firstname Lastname (example@example.se)** in task #123
                
                ### :construction_worker_man: Patch fixes
-                - Fix bug - By **@Firstname Lastname (example@example.se)** in task #123
-                - Non-conventional 1 - By **@Firstname Lastname (example@example.se)** in task #123
-                - : Non-conventional 2 - By **@Firstname Lastname (example@example.se)** in task #123
-                - Non-conventional 3 - By **@Firstname Lastname (example@example.se)** in task #123`.replace(
+                - Fix bug - By **Firstname Lastname (example@example.se)** in task #123
+                - Non-conventional 1 - By **Firstname Lastname (example@example.se)** in task #123
+                - : Non-conventional 2 - By **Firstname Lastname (example@example.se)** in task #123
+                - Non-conventional 3 - By **Firstname Lastname (example@example.se)** in task #123`.replace(
 					/\s/g,
 					''
 				)
@@ -380,7 +422,167 @@ describe('ConventionalCommitReleaseNotes', () => {
 				author: 'githubUsername'
 			});
 			expect(result.replace(/\s/g, '')).toBe(
-				`###:bomb:BreakingChanges-Breaking-By**@testGithubUsername**intask#123###:art:Features-Addnewfeature-By**@testGithubUsername**intask#123-Addanotherfeature-By**@testGithubUsername**intask#123###:construction_worker_man:Patchfixes-Fixbug-By**@testGithubUsername**intask#123-Non-conventional1-By**@testGithubUsername**intask#123-:Non-conventional2-By**@testGithubUsername**intask#123-Non-conventional3-By**@testGithubUsername**intask#123`.replace(
+				`### :bomb: Breaking Changes
+                - Breaking - By **@testGithubUsername** in task #123
+               
+               ### :art: Features
+                - Add new feature - By **@testGithubUsername** in task #123
+                - Add another feature - By **@testGithubUsername** in task #123
+               
+               ### :construction_worker_man: Patch fixes
+                - Fix bug - By **@testGithubUsername** in task #123
+                - Non-conventional 1 - By **@testGithubUsername** in task #123
+                - : Non-conventional 2 - By **@testGithubUsername** in task #123
+                - Non-conventional 3 - By **@testGithubUsername** in task #123`.replace(/\s/g, '')
+			);
+		});
+
+		it('Should support author by Github username and fallback username.', async () => {
+			const gitTags = ['v2.1.0-rc', 'v2.0.0', 'v2.0.0-rc', 'v1.1.0', 'v1.1.1-rc', 'v1.0.0'];
+			const gitCommits = [
+				'Merge branch with branch|Firstname Lastname|example@example.se',
+				'chore: [#123] Update dependencies.|Firstname Lastname|example@example.se',
+				'feat: [#123] Add new feature.|Firstname Lastname|example@example.se',
+				'feat: [#123] Add another feature.|Firstname Lastname|example@example.se',
+				'Merge branch with branch|Firstname Lastname|example@example.se',
+				'fix: [#123] Fix bug.|Firstname Lastname|example@example.se',
+				'#123 Non-conventional 1|Firstname Lastname|example@example.se',
+				'#123: Non-conventional 2|Firstname Lastname|example@example.se',
+				'#123@minor: Non-conventional 3|Firstname Lastname|example@example.se',
+				'chore: [#123] Update dependencies.|Firstname Lastname|example@example.se',
+				'BREAKING CHANGE: [#123] Breaking.|Firstname2 Lastname2|example2@example.se'
+			];
+
+			vi.spyOn(ChildProcess, 'exec').mockImplementation(
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				(command: string, callback: (error: Error | null, stdout: string) => void): void => {
+					switch (command) {
+						case 'git --no-pager log v1.0.0..v1.1.0 --pretty=format:"%s|%cn|%ce"':
+							callback(null, gitCommits.join('\n'));
+							break;
+						case 'git --no-pager tag -l --sort -version:refname':
+							callback(null, gitTags.join('\n'));
+							break;
+						case 'git fetch --all --tags':
+							callback(null, '');
+							break;
+						default:
+							callback(new Error(`Command failed: ${command}`), '');
+							break;
+					}
+				}
+			);
+
+			vi.spyOn(HTTPS, 'get').mockImplementation((url, _options, callback) => {
+				if (!callback) {
+					throw new Error('Callback is undefined');
+				}
+				callback(<IncomingMessage>{
+					on: (event, callback) => {
+						if (event === 'data') {
+							callback(
+								JSON.stringify(
+									url.toString().includes('example@example.se')
+										? {
+												items: [
+													{
+														login: 'testGithubUsername'
+													}
+												]
+											}
+										: {}
+								)
+							);
+						} else if (event === 'end') {
+							callback();
+						}
+					}
+				});
+				return <ClientRequest>{};
+			});
+
+			const result = await ConventionalCommitReleaseNotes.getReleaseNotes({
+				fromVersion: 'v1.0.0',
+				toVersion: 'v1.1.0',
+				author: 'githubUsername',
+				authorUsername: 'fallbackUsername'
+			});
+			expect(result.replace(/\s/g, '')).toBe(
+				`### :bomb: Breaking Changes
+                - Breaking - By **@fallbackUsername** in task #123
+               
+               ### :art: Features
+                - Add new feature - By **@testGithubUsername** in task #123
+                - Add another feature - By **@testGithubUsername** in task #123
+               
+               ### :construction_worker_man: Patch fixes
+                - Fix bug - By **@testGithubUsername** in task #123
+                - Non-conventional 1 - By **@testGithubUsername** in task #123
+                - : Non-conventional 2 - By **@testGithubUsername** in task #123
+                - Minor: Non-conventional 3 - By **@testGithubUsername** in task #123`.replace(
+					/\s/g,
+					''
+				)
+			);
+		});
+
+		it('Should support author by fallback username.', async () => {
+			const gitTags = ['v2.1.0-rc', 'v2.0.0', 'v2.0.0-rc', 'v1.1.0', 'v1.1.1-rc', 'v1.0.0'];
+			const gitCommits = [
+				'Merge branch with branch|Firstname Lastname|example@example.se',
+				'chore: [#123] Update dependencies.|Firstname Lastname|example@example.se',
+				'feat: [#123] Add new feature.|Firstname Lastname|example@example.se',
+				'feat: [#123] Add another feature.|Firstname Lastname|example@example.se',
+				'Merge branch with branch|Firstname Lastname|example@example.se',
+				'fix: [#123] Fix bug.|Firstname Lastname|example@example.se',
+				'#123 Non-conventional 1|Firstname Lastname|example@example.se',
+				'#123: Non-conventional 2|Firstname Lastname|example@example.se',
+				'#123@minor: Non-conventional 3|Firstname Lastname|example@example.se',
+				'chore: [#123] Update dependencies.|Firstname Lastname|example@example.se',
+				'BREAKING CHANGE: [#123] Breaking.|Firstname2 Lastname2|example2@example.se'
+			];
+
+			vi.spyOn(ChildProcess, 'exec').mockImplementation(
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				(command: string, callback: (error: Error | null, stdout: string) => void): void => {
+					switch (command) {
+						case 'git --no-pager log v1.0.0..v1.1.0 --pretty=format:"%s|%cn|%ce"':
+							callback(null, gitCommits.join('\n'));
+							break;
+						case 'git --no-pager tag -l --sort -version:refname':
+							callback(null, gitTags.join('\n'));
+							break;
+						case 'git fetch --all --tags':
+							callback(null, '');
+							break;
+						default:
+							callback(new Error(`Command failed: ${command}`), '');
+							break;
+					}
+				}
+			);
+
+			const result = await ConventionalCommitReleaseNotes.getReleaseNotes({
+				fromVersion: 'v1.0.0',
+				toVersion: 'v1.1.0',
+				authorUsername: 'fallbackUsername'
+			});
+
+			expect(result.replace(/\s/g, '')).toBe(
+				`### :bomb: Breaking Changes
+                - Breaking - By **@fallbackUsername** in task #123
+               
+               ### :art: Features
+                - Add new feature - By **@fallbackUsername** in task #123
+                - Add another feature - By **@fallbackUsername** in task #123
+               
+               ### :construction_worker_man: Patch fixes
+                - Fix bug - By **@fallbackUsername** in task #123
+                - Non-conventional 1 - By **@fallbackUsername** in task #123
+                - : Non-conventional 2 - By **@fallbackUsername** in task #123
+                - Minor: Non-conventional 3 - By **@fallbackUsername** in task #123`.replace(
 					/\s/g,
 					''
 				)
