@@ -65,9 +65,15 @@ async function getWorkspacePackages() {
 
 	for (const workspaceMatch of workspaceMatches) {
 		for (const directory of workspaceMatch) {
-			const packageJson = require(Path.join(rootDirectory, directory, 'package.json'));
+			let packageJson;
 
-			if (!packageJson.private) {
+            try{
+               packageJson = require(Path.join(rootDirectory, directory, 'package.json'));
+            } catch(e){
+                // Ignore
+            }
+
+			if (packageJson && !packageJson.private) {
 				workspacePackages[packageJson.name] = {
 					path: Path.join(rootDirectory, directory),
 					packageJson
