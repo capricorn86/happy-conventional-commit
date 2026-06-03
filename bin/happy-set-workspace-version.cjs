@@ -67,11 +67,11 @@ async function getWorkspacePackages() {
 		for (const directory of workspaceMatch) {
 			let packageJson;
 
-            try{
-               packageJson = require(Path.join(rootDirectory, directory, 'package.json'));
-            } catch(e){
-                // Ignore
-            }
+			try {
+				packageJson = require(Path.join(rootDirectory, directory, 'package.json'));
+			} catch (e) {
+				// Ignore
+			}
 
 			if (packageJson && !packageJson.private) {
 				workspacePackages[packageJson.name] = {
@@ -118,11 +118,13 @@ async function main() {
 
 		workspacePackage.packageJson.version = version;
 
-		const dependencies = workspacePackage.packageJson.dependencies;
-		if (dependencies) {
-			for (const dependency of Object.keys(dependencies)) {
-				if (workspacePackages[dependency]) {
-					dependencies[dependency] = dependencies[dependency].replace(VERSION_REGEXP, version);
+		for (const dependencyType of ['dependencies', 'devDependencies']) {
+			const dependencies = workspacePackage.packageJson[dependencyType];
+			if (dependencies) {
+				for (const dependency of Object.keys(dependencies)) {
+					if (workspacePackages[dependency]) {
+						dependencies[dependency] = dependencies[dependency].replace(VERSION_REGEXP, version);
+					}
 				}
 			}
 		}
